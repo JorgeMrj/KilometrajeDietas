@@ -55,12 +55,20 @@ export class Formulario implements OnInit {
   }
 
   inicializarFormulario() {
+    const nombreGuardado = localStorage.getItem('nombreUsuario') || '';
+    const dniGuardado = localStorage.getItem('dniUsuario') || '';
+    const horaInicioGuardada = localStorage.getItem('horaInicioUsuario') || '';
+    const horaFinalGuardada = localStorage.getItem('horaFinalUsuario') || '';
+
     this.formulario = this.fb.group(
       {
-        nombre: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
-        dni: ['', [Validators.required, this.validarDNI]],
-        horaInicio: ['', Validators.required],
-        horaFinal: ['', Validators.required],
+        nombre: [
+          nombreGuardado,
+          [Validators.required, Validators.minLength(2), Validators.maxLength(100)],
+        ],
+        dni: [dniGuardado, [Validators.required, this.validarDNI]],
+        horaInicio: [horaInicioGuardada, Validators.required],
+        horaFinal: [horaFinalGuardada, Validators.required],
         fecha: ['', [Validators.required, this.validarFechaNoFutura]],
         ciudad: ['', Validators.required],
         km: [{ value: '', disabled: true }],
@@ -68,16 +76,8 @@ export class Formulario implements OnInit {
       { validators: this.validarHoras },
     );
 
-    this.formulario.get('horaInicio')?.valueChanges.subscribe(() => {
-      this.calcularHoras();
-    });
-
-    this.formulario.get('horaFinal')?.valueChanges.subscribe(() => {
-      this.calcularHoras();
-    });
-
-    this.formulario.get('ciudad')?.valueChanges.subscribe((ciudadNombre) => {
-      this.actualizarKm(ciudadNombre);
+    this.formulario.get('nombre')?.valueChanges.subscribe((value) => {
+      localStorage.setItem('nombreUsuario', value || '');
     });
 
     this.formulario.get('dni')?.valueChanges.subscribe((value) => {
@@ -85,9 +85,31 @@ export class Formulario implements OnInit {
         const upperValue = value.toUpperCase();
         if (value !== upperValue) {
           this.formulario.get('dni')?.setValue(upperValue, { emitEvent: false });
+        } else {
+          localStorage.setItem('dniUsuario', value);
         }
+      } else {
+        localStorage.setItem('dniUsuario', '');
       }
     });
+
+    this.formulario.get('horaInicio')?.valueChanges.subscribe((value) => {
+      localStorage.setItem('horaInicioUsuario', value || '');
+      this.calcularHoras();
+    });
+
+    this.formulario.get('horaFinal')?.valueChanges.subscribe((value) => {
+      localStorage.setItem('horaFinalUsuario', value || '');
+      this.calcularHoras();
+    });
+
+    this.formulario.get('ciudad')?.valueChanges.subscribe((ciudadNombre) => {
+      this.actualizarKm(ciudadNombre);
+    });
+
+    if (horaInicioGuardada && horaFinalGuardada) {
+      this.calcularHoras();
+    }
   }
 
   validarHoras(control: AbstractControl): ValidationErrors | null {
@@ -153,7 +175,7 @@ export class Formulario implements OnInit {
     hoy.setHours(0, 0, 0, 0);
     fecha.setHours(0, 0, 0, 0);
 
-    if (fecha > hoy) {
+    if (fecha >= hoy) {
       return { fechaFutura: true };
     }
 
@@ -195,10 +217,28 @@ export class Formulario implements OnInit {
         km: formData.km,
       });
 
-      this.formulario.reset();
-      this.horasCalculadas = 0;
+      this.formulario.patchValue({
+        fecha: '',
+        ciudad: '',
+        km: '',
+      });
+
+      this.formulario.get('fecha')?.markAsPristine();
+      this.formulario.get('fecha')?.markAsUntouched();
+      this.formulario.get('ciudad')?.markAsPristine();
+      this.formulario.get('ciudad')?.markAsUntouched();
     } else {
       this.formulario.markAllAsTouched();
     }
+  }
+
+  limpiarFormulario() {
+    localStorage.removeItem('nombreUsuario');
+    localStorage.removeItem('dniUsuario');
+    localStorage.removeItem('horaInicioUsuario');
+    localStorage.removeItem('horaFinalUsuario');
+
+    this.formulario.reset();
+    this.horasCalculadas = 0;
   }
 }

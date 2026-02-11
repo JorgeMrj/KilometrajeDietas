@@ -4,28 +4,38 @@
 
 .card {
   transition: all 0.2s ease;
+  box-shadow: 0 10px 40px -10px rgba(100, 116, 139, 0.15);
 }
 
 .input,
 .select {
-  transition: border-color 0.2s ease;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(100, 116, 139, 0.08);
 }
 
 .input:focus,
 .select:focus {
-  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+  box-shadow:
+    0 0 0 3px rgba(148, 163, 184, 0.1),
+    0 1px 3px rgba(100, 116, 139, 0.1);
+  outline: none;
 }
 
 .btn {
   transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(100, 116, 139, 0.1);
 }
 
 .btn:hover:not(:disabled) {
   opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(100, 116, 139, 0.2);
 }
 
 .stat:hover {
-  transform: scale(1.05);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(100, 116, 139, 0.15);
+  transition: all 0.2s ease;
 }
 
 .stat-title {
@@ -38,7 +48,7 @@
 .stat-value {
   font-weight: 900;
   letter-spacing: -0.5px;
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 2px 4px rgba(100, 116, 139, 0.1);
 }
 
 .stat-desc {
@@ -49,4 +59,5 @@
 .badge {
   font-weight: 700;
   letter-spacing: 0.3px;
+  box-shadow: 0 2px 8px rgba(100, 116, 139, 0.15);
 }

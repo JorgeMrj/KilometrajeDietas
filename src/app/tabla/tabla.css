@@ -5,28 +5,30 @@
 
 .card {
   transition: all 0.2s ease;
+  box-shadow: 0 10px 40px -10px rgba(100, 116, 139, 0.15);
 }
 
 .table {
-  color: #fff;
+  color: #1f2937;
 }
 
 .table thead tr {
-  border-bottom: 2px solid #a855f7;
+  border-bottom: 2px solid #cbd5e1;
 }
 
 .table thead th {
   font-weight: 600;
   padding: 0.5rem;
+  color: #475569;
 }
 
 .table tbody tr {
-  border-bottom: 1px solid rgba(75, 85, 99, 0.3);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
   transition: background-color 0.2s ease;
 }
 
 .table tbody tr:hover {
-  background: rgba(55, 65, 81, 0.4);
+  background: rgba(248, 250, 252, 0.5);
 }
 
 .table tbody td {
@@ -35,14 +37,17 @@
 
 .btn {
   transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(100, 116, 139, 0.1);
 }
 
 .btn:hover {
   opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(100, 116, 139, 0.2);
 }
 
 .btn:hover:not(:disabled) {
-  box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+  box-shadow: 0 4px 12px rgba(100, 116, 139, 0.2);
 }
 
 .divider {
