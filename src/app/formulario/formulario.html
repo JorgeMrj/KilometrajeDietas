@@ -38,11 +38,11 @@
 
             <div class="form-control">
               <label class="label">
-                <span class="label-text font-bold text-sm text-slate-700"> DNI </span>
+                <span class="label-text font-bold text-sm text-slate-700"> DNI/NIE </span>
               </label>
               <input
                 type="text"
-                placeholder="12345678Z"
+                placeholder="12345678Z o X1234567L"
                 class="input input-bordered input-sm bg-white border-slate-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-gray-800 placeholder-gray-400 transition-all duration-300"
                 [class.input-error]="
                   formulario.get('dni')?.invalid && formulario.get('dni')?.touched
@@ -56,13 +56,13 @@
               >
                 <span class="label-text-alt text-error">
                   <ng-container *ngIf="formulario.get('dni')?.hasError('required')">
-                    DNI requerido
+                    DNI/NIE requerido
                   </ng-container>
                   <ng-container *ngIf="formulario.get('dni')?.hasError('dniInvalido')">
-                    Formato: 8 dígitos + letra (Ej: 12345678Z)
+                    Formato DNI: 12345678Z o NIE: X1234567L
                   </ng-container>
                   <ng-container *ngIf="formulario.get('dni')?.hasError('letraIncorrecta')">
-                    Letra del DNI incorrecta
+                    Letra de control incorrecta
                   </ng-container>
                 </span>
               </label>

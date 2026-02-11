@@ -124,26 +124,45 @@ export class Formulario implements OnInit {
   }
 
   validarDNI(control: AbstractControl): ValidationErrors | null {
-    const dni = control.value;
-    if (!dni) return null;
+    const valor = control.value;
+    if (!valor) return null;
 
-    const dniPattern = /^(\d{8})([A-Za-z])$/;
-    const match = dni.match(dniPattern);
-
-    if (!match) {
-      return { dniInvalido: true };
-    }
-
+    const valorLimpio = valor.toUpperCase().trim();
     const letras = 'TRWAGMYFPDXBNJZSQVHLCKE';
-    const numero = parseInt(match[1], 10);
-    const letra = match[2].toUpperCase();
-    const letraCorrecta = letras[numero % 23];
 
-    if (letra !== letraCorrecta) {
-      return { letraIncorrecta: true };
+    const dniPattern = /^(\d{8})([A-Z])$/;
+    const dniMatch = valorLimpio.match(dniPattern);
+
+    if (dniMatch) {
+      const numero = parseInt(dniMatch[1], 10);
+      const letra = dniMatch[2];
+      const letraCorrecta = letras[numero % 23];
+
+      if (letra !== letraCorrecta) {
+        return { letraIncorrecta: true };
+      }
+      return null;
     }
 
-    return null;
+    const niePattern = /^([XYZ])(\d{7})([A-Z])$/;
+    const nieMatch = valorLimpio.match(niePattern);
+
+    if (nieMatch) {
+      const primeraLetra = nieMatch[1];
+      const digitos = nieMatch[2];
+      const letra = nieMatch[3];
+
+      const prefijo = primeraLetra === 'X' ? '0' : primeraLetra === 'Y' ? '1' : '2';
+      const numeroCompleto = parseInt(prefijo + digitos, 10);
+      const letraCorrecta = letras[numeroCompleto % 23];
+
+      if (letra !== letraCorrecta) {
+        return { letraIncorrecta: true };
+      }
+      return null;
+    }
+
+    return { dniInvalido: true };
   }
 
   validarFechaNoFutura(control: AbstractControl): ValidationErrors | null {
