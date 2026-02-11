@@ -1,3 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import "tailwindcss";
+@import 'tailwindcss';
+@plugin "daisyui";
+
+@theme {
+  --color-primary: #570df8;
+  --color-secondary: #f000b8;
+  --color-accent: #37cdbe;
+  --color-neutral: #1a1a1a;
+  --color-base-100: #000000;
+  --color-base-200: #0d0d0d;
+  --color-base-300: #1a1a1a;
+  --color-info: #3abff8;
+  --color-success: #36d399;
+  --color-warning: #fbbd23;
+  --color-error: #f87272;
+}

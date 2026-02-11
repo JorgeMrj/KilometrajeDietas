@@ -1,0 +1,275 @@
+<div data-theme="black " class="bg-linear-to-br from-slate-900 via-purple-900 to-slate-900">
+  <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
+    <div
+      class="card bg-linear-to-br from-gray-900 to-gray-800 shadow-2xl border-2 border-purple-500/30 backdrop-blur-lg"
+    >
+      <div class="card-body p-3">
+        <div class="text-center mb-3">
+          <h2
+            class="text-2xl font-black text-transparent bg-clip-text bg-linear-to-r from-purple-400 via-pink-400 to-blue-400 mb-1"
+          >
+            Kilometraje Dietas
+          </h2>
+          <p class="text-gray-400 text-sm">Sistema de registro de desplazamientos</p>
+        </div>
+
+        <div
+          class="bg-linear-to-r from-gray-800/50 to-gray-900/50 rounded-2xl p-3 mb-3 border border-gray-700/50"
+        >
+          <h3 class="text-lg font-bold text-purple-300 mb-3">Datos Personales</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text font-bold text-sm text-purple-200"> Nombre </span>
+              </label>
+              <input
+                type="text"
+                placeholder="Ej: Juan Pérez"
+                class="input input-bordered input-sm bg-gray-950 border-gray-700 focus:border-purple-500 text-gray-200 placeholder-gray-600 transition-all duration-300"
+                [class.input-error]="
+                  formulario.get('nombre')?.invalid && formulario.get('nombre')?.touched
+                "
+                formControlName="nombre"
+              />
+              <label
+                class="label"
+                *ngIf="formulario.get('nombre')?.invalid && formulario.get('nombre')?.touched"
+              >
+                <span class="label-text-alt text-error"> Mínimo 2 caracteres </span>
+              </label>
+            </div>
+
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text font-bold text-sm text-purple-200"> DNI </span>
+              </label>
+              <input
+                type="text"
+                placeholder="12345678Z"
+                class="input input-bordered input-sm bg-gray-950 border-gray-700 focus:border-purple-500 text-gray-200 placeholder-gray-600 transition-all duration-300"
+                [class.input-error]="
+                  formulario.get('dni')?.invalid && formulario.get('dni')?.touched
+                "
+                formControlName="dni"
+                maxlength="9"
+              />
+              <label
+                class="label"
+                *ngIf="formulario.get('dni')?.invalid && formulario.get('dni')?.touched"
+              >
+                <span class="label-text-alt text-error">
+                  <ng-container *ngIf="formulario.get('dni')?.hasError('required')">
+                    DNI requerido
+                  </ng-container>
+                  <ng-container *ngIf="formulario.get('dni')?.hasError('dniInvalido')">
+                    Formato: 8 dígitos + letra (Ej: 12345678Z)
+                  </ng-container>
+                  <ng-container *ngIf="formulario.get('dni')?.hasError('letraIncorrecta')">
+                    Letra del DNI incorrecta
+                  </ng-container>
+                </span>
+              </label>
+            </div>
+
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text font-bold text-sm text-purple-200"> Fecha </span>
+              </label>
+              <input
+                type="text"
+                placeholder="25/12/2025"
+                class="input input-bordered input-sm bg-gray-950 border-gray-700 focus:border-purple-500 text-gray-200 placeholder-gray-600 transition-all duration-300"
+                [class.input-error]="
+                  formulario.get('fecha')?.invalid && formulario.get('fecha')?.touched
+                "
+                formControlName="fecha"
+              />
+              <label
+                class="label"
+                *ngIf="formulario.get('fecha')?.invalid && formulario.get('fecha')?.touched"
+              >
+                <span class="label-text-alt text-error">
+                  <ng-container *ngIf="formulario.get('fecha')?.hasError('required')">
+                    Fecha requerida
+                  </ng-container>
+                  <ng-container *ngIf="formulario.get('fecha')?.hasError('formatoInvalido')">
+                    Formato: dd/mm/yyyy (Ej: 25/12/2025)
+                  </ng-container>
+                  <ng-container *ngIf="formulario.get('fecha')?.hasError('fechaInvalida')">
+                    Fecha no válida
+                  </ng-container>
+                  <ng-container *ngIf="formulario.get('fecha')?.hasError('fechaFutura')">
+                    La fecha no puede ser futura
+                  </ng-container>
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="bg-linear-to-r from-blue-900/30 to-purple-900/30 rounded-2xl p-3 mb-3 border border-blue-700/30"
+        >
+          <h3 class="text-lg font-bold text-blue-300 mb-3">Horario de Trabajo</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text font-bold text-sm text-blue-200"> Hora de Inicio </span>
+              </label>
+              <input
+                type="time"
+                class="input input-bordered input-sm bg-gray-950 border-gray-700 focus:border-blue-500 text-gray-200 transition-all duration-300"
+                [class.input-error]="
+                  formulario.get('horaInicio')?.invalid && formulario.get('horaInicio')?.touched
+                "
+                formControlName="horaInicio"
+              />
+            </div>
+
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text font-bold text-sm text-blue-200"> Hora Final </span>
+              </label>
+              <input
+                type="time"
+                class="input input-bordered input-sm bg-gray-950 border-gray-700 focus:border-blue-500 text-gray-200 transition-all duration-300"
+                [class.input-error]="
+                  (formulario.get('horaFinal')?.invalid && formulario.get('horaFinal')?.touched) ||
+                  formulario.errors?.['horaFinalMenor']
+                "
+                formControlName="horaFinal"
+              />
+              <label class="label" *ngIf="formulario.errors?.['horaFinalMenor']">
+                <span class="label-text-alt text-error">
+                  Debe ser mayor que la hora de inicio
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="bg-linear-to-r from-green-900/30 to-teal-900/30 rounded-2xl p-3 mb-3 border border-green-700/30"
+        >
+          <h3 class="text-lg font-bold text-green-300 mb-3">Ubicación y Distancia</h3>
+          <div class="grid grid-cols-1 gap-3">
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text font-bold text-sm text-green-200"> Ciudad </span>
+              </label>
+              <select
+                class="select select-bordered select-sm bg-gray-950 border-gray-700 focus:border-green-500 text-gray-200 transition-all duration-300"
+                [class.select-error]="
+                  formulario.get('ciudad')?.invalid && formulario.get('ciudad')?.touched
+                "
+                formControlName="ciudad"
+              >
+                <option value="" disabled selected>Seleccione ciudad</option>
+                <option *ngFor="let ciudad of ciudades" [value]="ciudad.ciudad">
+                  {{ ciudad.ciudad }}
+                </option>
+              </select>
+            </div>
+
+            <div>
+              <div
+                class="stats stats-vertical sm:stats-horizontal shadow-2xl w-full bg-linear-to-br from-gray-800 to-gray-900 border-2 border-green-500/50 overflow-hidden"
+              >
+                <div class="stat bg-linear-to-br from-blue-600/20 to-purple-600/20">
+                  <div class="stat-figure text-blue-400">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      class="inline-block w-6 h-6 stroke-current drop-shadow-lg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <div class="stat-title text-blue-200 font-bold text-xs">Horas Trabajadas</div>
+                  <div class="stat-value text-blue-300 text-2xl drop-shadow-lg">
+                    {{ horasCalculadas | number: '1.2-2' }}
+                  </div>
+                  <div class="stat-desc text-blue-300/70 text-xs">Calculadas automáticamente</div>
+                </div>
+
+                <div class="stat bg-linear-to-br from-green-600/20 to-teal-600/20">
+                  <div class="stat-figure text-green-400">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      class="inline-block w-6 h-6 stroke-current drop-shadow-lg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M13 10V3L4 14h7v7l9-11h-7z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <div class="stat-title text-green-200 font-bold text-xs">Kilómetros</div>
+                  <div class="stat-value text-green-300 text-2xl drop-shadow-lg">
+                    {{ formulario.get('km')?.value || 0 }}
+                  </div>
+                  <div class="stat-desc text-green-300/70 text-xs">Según ciudad seleccionada</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-actions justify-center md:justify-end mt-3 gap-2 flex-wrap">
+          <button
+            type="button"
+            class="btn btn-outline btn-error btn-sm hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-red-500/50"
+            (click)="formulario.reset()"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+              />
+            </svg>
+            Limpiar
+          </button>
+          <button
+            type="submit"
+            class="btn btn-success btn-sm font-bold hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-green-500/50 bg-linear-to-r from-green-500 to-emerald-600 border-0"
+            [disabled]="formulario.invalid"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
+            Añadir
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

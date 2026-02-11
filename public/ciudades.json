@@ -1,0 +1,24 @@
+{
+  "ciudades": [
+    {
+      "ciudad": "Madrid",
+      "km": 29
+    },
+    {
+      "ciudad": "Leganes",
+      "km": 6
+    },
+    {
+      "ciudad": "Alcorcon",
+      "km": 8
+    },
+    {
+      "ciudad": "Fuenlabrada",
+      "km": 10
+    },
+    {
+      "ciudad": "Pozuelo de Alarcon",
+      "km": 45
+    }
+  ]
+}
